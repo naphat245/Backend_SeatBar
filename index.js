@@ -6,6 +6,7 @@ const dbConnection = require('./database');
 const { body, validationResult } = require('express-validator');
 const authRoute = require('./routes/AuthRoutes');
 const bodyParser = require('body-parser');
+const adminRoute = require('./routes/AdminRoutes')
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get('/',(req,res)=>{
     res.json({message:'ok'})
 })
 app.use('/auth',authRoute)
+app.use('/admin',adminRoute)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
