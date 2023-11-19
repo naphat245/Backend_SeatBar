@@ -1,7 +1,7 @@
 const dbConnection = require('../database')
 
-//JOIN drinks_types ON drinks.drinks_types=drinks_types.name
-const createDrinkTypes = async (req,res)=>{
+//JOIN food_types ON foods.foods_types=foods_types.name
+const createFoodTypes = async (req,res)=>{
     try{ 
         const {  name } = req.body;
         const newUser = [
@@ -9,7 +9,7 @@ const createDrinkTypes = async (req,res)=>{
             price,
         ];
        await dbConnection.query(
-            'INSERT INTO drinks ( name) VALUES (?)',
+            'INSERT INTO foods ( name) VALUES (?)',
             newUser,
         )
         res.status(200).json({ message: 'successful' });
@@ -21,4 +21,4 @@ const createDrinkTypes = async (req,res)=>{
  }
 
 
- module.exports = {createDrinkTypes};
+ module.exports = {createFoodTypes};

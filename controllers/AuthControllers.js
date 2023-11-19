@@ -1,76 +1,74 @@
 const dbConnection = require("../database");
 const bcrypt = require("bcrypt");
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   const { fullname, email, name, password } = req.body;
-  console.log("body", req.body);
 
   try {
     if (!name || !password || !email || !fullname) {
-      return res.json({
-        message: "Cannot register with empty",
+      return res.status(400).json({
+        message: "Cannot register with empty fields",
         register: false,
       });
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const newUser = {
-        fullname,
-        email,
-        name,
-        password: hashedPassword,
-      };
-
-      await dbConnection.query(
-        "INSERT INTO users (fullname, email, name, password) VALUES (?, ?, ?, ?)",
-        [newUser.fullname, newUser.email, newUser.name, newUser.password],
-        (err, results) => {
-          if (err) {
-            console.error("Registration error: " + err.sqlMessage);
-            res.status(500).json({ message: "Registration failed" });
-          } else {
-            res.status(200).json({ message: "Registration successful" });
-          }
-        }
-      );
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      fullname,
+      email,
+      name,
+      password: hashedPassword,
+    };
+
+    const query = "INSERT INTO users (fullname, email, name, password) VALUES (?, ?, ?, ?)";
+    const values = [newUser.fullname, newUser.email, newUser.name, newUser.password];
+
+    await dbConnection.query(query, values);
+
+    res.status(200).json({ message: "Registration successful", register: true });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Cannot register", register: false });
+    console.error("Registration error:", error);
+    res.status(500).json({ message: "Registration failed", register: false });
   }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const users = await dbConnection.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
-    console.log('users',users[0]);
-    if (users[0]) {   
-        //TODO : check login role 
-    (bcrypt.compare(password,users[0][0].password,(err,result)=>{
-        if (result) {
-            res.status(200).json({ message:users[0][0] });
-          } else {
-            res.status(500).json({ message: "Cannot failed", login: false });
-          }
-    }))
-      
+    const [users] = await dbConnection.query("SELECT * FROM users WHERE email = ?", [email]);
+
+    if (users[0]) {
+      const user = users[0];
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordMatch) {
+        // Check the user's role and respond accordingly
+        if (user.role === 'admin') {
+          res.status(200).json({ message: "Admin login successful", user });
+        } else {
+          res.status(200).json({ message: "User login successful", user });
+        }
+      } else {
+        res.status(401).json({ message: "Invalid password", login: false });
+      }
     } else {
-      res.status(500).json({ message: "Cannot login", login: false });
+      res.status(404).json({ message: "User not found", login: false });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Login failed", login: false });
+  }
 };
 
 const users = async (req, res) => {
   try {
-    const users = await dbConnection.query("SELECT * FROM users");
-    // res.json(users)
-    res.send(users[0]);
+    const [users] = await dbConnection.query("SELECT * FROM users");
+    res.status(200).json(users);
   } catch (error) {
-    console.log(error);
+    console.error("Error:", error);
     res.status(500).json({ message: "Error" });
   }
 };

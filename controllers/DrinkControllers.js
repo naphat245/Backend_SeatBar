@@ -2,12 +2,12 @@ const express = require("express")
 const dbConnection = require("../database");
 
 
-
+//post Drink
 const createDrink = async (req,res)=>{
 
     try{ 
         const { drinks_types, name, price } = req.body;
-        const newUser = [
+        const newDrink = [
             drinks_types,
             name,
             price,
@@ -15,7 +15,7 @@ const createDrink = async (req,res)=>{
 
        await dbConnection.query(
             'INSERT INTO drinks ( drinks_types,name,price) VALUES (?, ?, ?)',
-            newUser,
+            newDrink,
         )
         res.status(200).json({ message: 'successful' });
         
@@ -24,11 +24,13 @@ const createDrink = async (req,res)=>{
          res.status(500).json({ message: "Error" });
      }
  }
+
+//update Drink
  const updateDrink = async (req,res)=>{
 
     try{ 
         const { drinks_types, name, price } = req.body;
-        const newUser = [
+        const newDrink = [
             drinks_types,
             name,
             price,
@@ -37,7 +39,7 @@ const createDrink = async (req,res)=>{
 
        await dbConnection.query(
             'UPDATE drinks SET drinks_types = ? , name = ? , price = ? WHERE id = ?',
-            newUser,
+            newDrink,
         )
         res.status(200).json({ message: 'successful' });
         
@@ -46,16 +48,18 @@ const createDrink = async (req,res)=>{
          res.status(500).json({ message: "Error" });
      }
  }
+
+ //delete Drink
  const deleteDrink = async (req,res)=>{
 
     try{ 
-        const newUser = [
+        const newDrink = [
             req.params.id
         ];
 
        await dbConnection.query(
             'DELETE FROM drinks WHERE id=?',
-            newUser,
+            newDrink,
         )
         res.status(200).json({ message: 'successful' });
         
@@ -64,7 +68,7 @@ const createDrink = async (req,res)=>{
          res.status(500).json({ message: "Error" });
      }
  }
- 
+
  //get Drink
  const getDrink = async (req,res)=>{
 
@@ -76,6 +80,8 @@ const createDrink = async (req,res)=>{
             res.status(500).json({ message: "Error" });
         }
  }
+
+ //get by ID_Drink
  const getByIdDrink = async (req,res)=>{
     try{ 
         

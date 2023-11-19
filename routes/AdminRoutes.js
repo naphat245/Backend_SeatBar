@@ -8,10 +8,16 @@ adminRoute.put('/drinks/:id',DrinkController.updateDrink)
 adminRoute.delete('/drinks/:id',DrinkController.deleteDrink)
 adminRoute.get('/drinks/:id',DrinkController.getByIdDrink)
 adminRoute.get('/drinks',DrinkController.getDrink)
-//drink_types
-adminRoute.post('/drinks',DrinkTypesController.createDrinkTypes)
-//foods
 
+//drink_types
+
+//food
+adminRoute.post('/foods',FoodController.createFood)
+adminRoute.put('/foods/:id',FoodController.updateFood)
+adminRoute.delete('/foods/:id',FoodController.deleteFood)
+adminRoute.get('/foods/:id',FoodController.getByIdFood)
+adminRoute.get('/foods',FoodController.getFood)
+//adminRoute.post('/drinks',DrinkTypesController.createDrinkTypes)
 
 //reserve
 adminRoute.post('/reserve',ReserveControllers.createReserve)

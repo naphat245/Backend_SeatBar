@@ -44,7 +44,7 @@ const createReserve = async (req,res)=>{
         ];
 
        await dbConnection.query(
-            'UPDATE reserve SET reserve_date = ? , reserve_name = ? , phone_number = ? , email = ? , number_table = ? , special_need = ? WHERE id = ?',
+            'UPDATE reserve_tables SET reserve_date = ? , reserve_name = ? , phone_number = ? , email = ? , number_table = ? , special_need = ? WHERE id = ?',
             newReserve,
         )
         res.status(200).json({ message: 'successful' });
@@ -56,30 +56,30 @@ const createReserve = async (req,res)=>{
  }
 
  //delete Reserve
- const deleteReserve = async (req,res)=>{
+ async function deleteReserve(req, res) {
 
-    try{ 
+    try {
         const newReserve = [
             req.params.id
         ];
 
-       await dbConnection.query(
-            'DELETE FROM reserve WHERE id=?',
-            newReserve,
-        )
+        await dbConnection.query(
+            'DELETE FROM reserve_tables WHERE id=?',
+            newReserve
+        );
         res.status(200).json({ message: 'successful' });
-        
-     }catch(error){
-         console.log(error)
-         res.status(500).json({ message: "Error" });
-     }
- }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error" });
+    }
+}
 
  //get Reaerve
  const getReserve = async (req,res)=>{
 
     try{ 
-        const getReserve=await dbConnection.query('SELECT * FROM reserve')
+        const getReserve=await dbConnection.query('SELECT * FROM reserve_tables')
         res.send(getReserve[0])
         }catch(error){
             console.log(error)
@@ -91,7 +91,7 @@ const createReserve = async (req,res)=>{
  const getByIdReserve = async (req,res)=>{
     try{ 
         
-        const getReserve=await dbConnection.query('SELECT * FROM reserve WHERE id=?',[req.params.id])
+        const getReserve=await dbConnection.query('SELECT * FROM reserve_tables WHERE id=?',[req.params.id])
         res.send(getReserve[0])
         }catch(error){
             console.log(error)
