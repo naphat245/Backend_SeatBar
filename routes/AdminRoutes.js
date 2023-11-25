@@ -11,7 +11,7 @@ adminRoute.put('/drinks/:id',DrinkController.updateDrink)
 adminRoute.delete('/drinks/:id',DrinkController.deleteDrink)
 adminRoute.get('/drinks/:id',DrinkController.getByIdDrink)
 adminRoute.get('/drinks',DrinkController.getDrink)
-
+adminRoute.get('/drinks/type/:name', DrinkController.getDrinkByType); // can use but no data
 //drink_types
 //adminRoute.post('/drinks',DrinkTypesController.createDrinkTypes)
 
@@ -23,6 +23,20 @@ adminRoute.get('/foods/:id',FoodController.getByIdFood)
 adminRoute.get('/foods',FoodController.getFood)
 //food_types
 //adminRoute.post('/foods',FoodTypesController.createFoodTypes)
+
+//promotion
+// adminRoute.post('/promotions',PromotionController.createPromotion)
+// adminRoute.put('/promotions/:id',PromotionController.updatePromotion)
+// adminRoute.delete('/promotions/:id',PromotionController.deletePromotion)
+// adminRoute.get('/promotions/:id',PromotionController.getByIdPromotion)
+// adminRoute.get('/promotions',PromotionController.getPromotion)
+
+//stage_show
+// adminRoute.post('/stage',Stage_showController.createStage)
+// adminRoute.put('/stage/:id',Stage_showController.updateStage)
+// adminRoute.delete('/stage/:id',Stage_showController.deleteStage)
+// adminRoute.get('/stage/:id',Stage_showController.getByIdStage)
+// adminRoute.get('/stage',Stage_showontroller.getStage)
 
 //reserve
 adminRoute.post('/reserve',ReserveControllers.createReserve)

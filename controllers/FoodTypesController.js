@@ -1,6 +1,8 @@
 const dbConnection = require('../database')
 
 //JOIN food_types ON foods.foods_types=foods_types.name
+// Select drink_name
+// from 
 const createFoodTypes = async (req,res)=>{
     try{ 
         const {  name } = req.body;

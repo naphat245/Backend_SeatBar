@@ -80,6 +80,28 @@ const createFood = async (req,res)=>{
         }
  }
 
+ // get by Type_Food
+const getFoodByType = async (req, res) => {
+    try {
+      const getFoods = await dbConnection.query(
+        "SELECT name, foods_types, price FROM foods WHERE foods_types = (SELECT name FROM foods_types WHERE name = ?)",
+        [req.params.name]
+      );
+  
+      console.log('getFoods:', getFoods); // Log the results for debugging
+  
+      if (getFoods[0].length === 0) {
+        res.status(404).json({ message: "Food type not found" });
+      } else {
+        res.send(getFoods[0]);
+      }
+    } catch (error) {
+      console.error('Error in getFoodByType:', error); // Log the error for debugging
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
  //get by ID_Food
  const getByIdFood = async (req,res)=>{
     try{ 
