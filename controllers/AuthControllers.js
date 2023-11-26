@@ -2,10 +2,10 @@ const dbConnection = require("../database");
 const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
-  const { fullname, email, name, password } = req.body;
+  const { fullname, email, name, password, username, status_user } = req.body;
 
   try {
-    if (!name || !password || !email || !fullname) {
+    if (!name || !password || !email || !fullname || !username) {
       return res.status(400).json({
         message: "Cannot register with empty fields",
         register: false,
@@ -17,12 +17,13 @@ const register = async (req, res) => {
     const newUser = {
       fullname,
       email,
-      name,
+      name: username,
       password: hashedPassword,
+      status_user: status_user
     };
 
-    const query = "INSERT INTO users (fullname, email, name, password) VALUES (?, ?, ?, ?)";
-    const values = [newUser.fullname, newUser.email, newUser.name, newUser.password];
+    const query = "INSERT INTO users (fullname, email, name, password, status_user) VALUES (?, ?, ?, ?, ?)";
+    const values = [newUser.fullname, newUser.email, newUser.name, newUser.password, newUser.status_user];
 
     await dbConnection.query(query, values);
 
@@ -46,10 +47,10 @@ const login = async (req, res) => {
 
       if (passwordMatch) {
         // Check the user's role and respond accordingly
-        if (user.role === 'admin') {
-          res.status(200).json({ message: "Admin login successful", user });
+        if (user.status_user === 0) {
+          res.status(200).json({ message: "Admin login successful", user ,status_code: "001"});
         } else {
-          res.status(200).json({ message: "User login successful", user });
+          res.status(200).json({ message: "User login successful", user, status_code: "002" });
         }
       } else {
         res.status(401).json({ message: "Invalid password", login: false });
