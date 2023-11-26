@@ -6,14 +6,14 @@ const dbConnection = require("../database");
 const createReserve = async (req,res)=>{
 
     try{ 
-        const { reserve_date, reserve_name, phone_number, email, number_table, special_need  } = req.body;
+        const { reserve_date, reserve_name, phone_number, email, number_table, special_needs  } = req.body;
         const newReserve = [
             reserve_date, 
             reserve_name, 
             phone_number, 
             email, 
             number_table, 
-            special_need
+            special_needs
         ];
 
        await dbConnection.query(
@@ -32,19 +32,19 @@ const createReserve = async (req,res)=>{
  const updateReserve = async (req,res)=>{
 
     try{ 
-        const { reserve_date, reserve_name, phone_number, email, number_table, special_need} = req.body;
+        const { reserve_date, reserve_name, phone_number, email, number_table, special_needs} = req.body;
         const newReserve = [
             reserve_date, 
             reserve_name, 
             phone_number, 
             email, 
             number_table, 
-            special_need,
+            special_needs,
             req.params.id
         ];
 
        await dbConnection.query(
-            'UPDATE reserve_tables SET reserve_date = ? , reserve_name = ? , phone_number = ? , email = ? , number_table = ? , special_need = ? WHERE id = ?',
+            'UPDATE reserve_tables SET reserve_date = ? , reserve_name = ? , phone_number = ? , email = ? , number_table = ? , special_needs = ? WHERE id = ?',
             newReserve,
         )
         res.status(200).json({ message: 'successful' });
