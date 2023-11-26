@@ -4,6 +4,8 @@ const DrinkTypesController = require('../controllers/DrinkTypesController')
 const FoodController = require('../controllers/FoodControllers')
 const FoodTypesController = require('../controllers/FoodTypesController')
 const ReserveControllers = require('../controllers/ReserveControllers')
+const Stage_showController = require('../controllers/Stage_showControllers')
+
 
 //drinks
 adminRoute.post('/drinks',DrinkController.createDrink)
@@ -32,11 +34,11 @@ adminRoute.get('/foods',FoodController.getFood)
 // adminRoute.get('/promotions',PromotionController.getPromotion)
 
 //stage_show
-// adminRoute.post('/stage',Stage_showController.createStage)
-// adminRoute.put('/stage/:id',Stage_showController.updateStage)
-// adminRoute.delete('/stage/:id',Stage_showController.deleteStage)
-// adminRoute.get('/stage/:id',Stage_showController.getByIdStage)
-// adminRoute.get('/stage',Stage_showontroller.getStage)
+adminRoute.post('/stage',Stage_showController.createStage)
+adminRoute.put('/stage/:id',Stage_showController.updateStage)
+adminRoute.delete('/stage/:id',Stage_showController.deleteStage)
+adminRoute.get('/stage/:id',Stage_showController.getByIdStage)
+adminRoute.get('/stage',Stage_showController.getStage)
 
 //reserve
 adminRoute.post('/reserve',ReserveControllers.createReserve)

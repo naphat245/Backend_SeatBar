@@ -13,7 +13,7 @@ const createStage = async (req,res)=>{
         ];
 
        await dbConnection.query(
-            'INSERT INTO promotion ( start_date, time_show, band ) VALUES (?, ?, ?)',
+            'INSERT INTO stage_show ( start_date, time_show, band ) VALUES (?, ?, ?)',
             newStage_show,
         )
         res.status(200).json({ message: 'successful' });
